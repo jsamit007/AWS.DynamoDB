@@ -3,13 +3,13 @@
 namespace DynamoDB.Service;
 
 [DynamoDBTable("Product")]
-public class ProductModel
+public class Product
 {
     [DynamoDBHashKey]
     [DynamoDBProperty]
-    public string Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
     [DynamoDBProperty]
-    public string Category { get; set; }
+    public string Category { get; set; } = default!;
     [DynamoDBProperty]
-    public string Name { get; set; }
+    public string Name { get; set; } = default!;
 }

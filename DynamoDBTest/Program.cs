@@ -6,6 +6,7 @@ using System.Text.Json;
 IAmazonDynamoDB client = null!;
 DynamoDbDDLService ddlService = null!;
 DynamoDMLService dmlService = null!;
+PartiQLService sqlService = null!;
 string tableName = string.Empty;
 
 int choice = 0;
@@ -24,6 +25,11 @@ do
     Console.WriteLine("Perform Batch Get in Table - Enter 10");
     Console.WriteLine("Query in Table - Enter 11");
     Console.WriteLine("Scan in Table - Enter 12");
+    Console.WriteLine("PartiQL Create - Enter 13");
+    Console.WriteLine("PartiQL Read - Enter 14");
+    Console.WriteLine("PartiQL Update - Enter 15");
+    Console.WriteLine("PartiQL Delete - Enter 16");
+    Console.WriteLine("PartiQL Get All Items - Enter 17");
     Console.WriteLine("Exit - Enter -1");
     choice = Convert.ToInt32(Console.ReadLine());
     Console.WriteLine(choice);
@@ -238,6 +244,46 @@ do
                 dmlService = new DynamoDMLService(client);
                 var scanResponse = dmlService.Scan(tableName).Result;
                 Console.WriteLine(JsonSerializer.Serialize(scanResponse, new JsonSerializerOptions { WriteIndented = true }));
+                break;
+            case 13:
+                Console.WriteLine("Enter Table Name: ");
+                tableName = Console.ReadLine()!;
+                client = ServiceProvider.GetDynamoDbClient();
+                sqlService = new PartiQLService(client);
+                var statementResponse = sqlService.Insert(tableName).Result;
+                Console.WriteLine(JsonSerializer.Serialize(statementResponse, new JsonSerializerOptions { WriteIndented = true }));
+                break;
+            case 14:
+                Console.WriteLine("Enter Table Name: ");
+                tableName = Console.ReadLine()!;
+                client = ServiceProvider.GetDynamoDbClient();
+                sqlService = new PartiQLService(client);
+                statementResponse = sqlService.Read(tableName).Result;
+                Console.WriteLine(JsonSerializer.Serialize(statementResponse, new JsonSerializerOptions { WriteIndented = true }));
+                break;
+            case 15:
+                Console.WriteLine("Enter Table Name: ");
+                tableName = Console.ReadLine()!;
+                client = ServiceProvider.GetDynamoDbClient();
+                sqlService = new PartiQLService(client);
+                statementResponse = sqlService.Update(tableName).Result;
+                Console.WriteLine(JsonSerializer.Serialize(statementResponse, new JsonSerializerOptions { WriteIndented = true }));
+                break;
+            case 16:
+                Console.WriteLine("Enter Table Name: ");
+                tableName = Console.ReadLine()!;
+                client = ServiceProvider.GetDynamoDbClient();
+                sqlService = new PartiQLService(client);
+                statementResponse = sqlService.Delete(tableName).Result;
+                Console.WriteLine(JsonSerializer.Serialize(statementResponse, new JsonSerializerOptions { WriteIndented = true }));
+                break;
+            case 17:
+                Console.WriteLine("Enter Table Name: ");
+                tableName = Console.ReadLine()!;
+                client = ServiceProvider.GetDynamoDbClient();
+                sqlService = new PartiQLService(client);
+                statementResponse = sqlService.GetAll(tableName).Result;
+                Console.WriteLine(JsonSerializer.Serialize(statementResponse, new JsonSerializerOptions { WriteIndented = true }));
                 break;
             case -1:
                 break;

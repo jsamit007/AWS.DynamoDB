@@ -56,10 +56,10 @@ public class DynamoDMLService : IDisposable
         });
     }
 
-    public async Task<long> BatchWriteItem(string tableName,List<ProductModel> products)
+    public async Task<long> BatchWriteItem(string tableName,List<Product> products)
     {
         var context = new DynamoDBContext(_client);
-        var batch = context.CreateBatchWrite<ProductModel>();
+        var batch = context.CreateBatchWrite<Product>();
         batch.AddPutItems(products);
         await batch.ExecuteAsync();
         return products.Count;
