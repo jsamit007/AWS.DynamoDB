@@ -3,7 +3,7 @@
 namespace DynamoDB.Service;
 
 [DynamoDBTable("Product")]
-public class Product
+public class Product : BaseEntity
 {
     [DynamoDBHashKey]
     [DynamoDBProperty]
